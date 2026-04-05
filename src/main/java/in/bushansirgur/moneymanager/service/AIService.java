@@ -179,7 +179,29 @@ IMPORTANT:
 
         String response = callOpenAI(prompt);
 
-        JSONObject json = new JSONObject(response);
+        JSONObject json;
+
+        try {
+            // Extract JSON manually if AI adds text
+            int start = response.indexOf("{");
+            int end = response.lastIndexOf("}") + 1;
+
+            String cleanJson = response.substring(start, end);
+
+            json = new JSONObject(cleanJson);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            // fallback (VERY IMPORTANT)
+            AIIntent fallback = new AIIntent();
+            fallback.setNeedsUserData(true);
+            fallback.setNeedsMarketData(false);
+            fallback.setNeedsNewsData(false);
+
+            return fallback;
+        }
+        System.out.println("INTENT RAW RESPONSE: " + response);
 
         AIIntent intent = new AIIntent();
         intent.setNeedsUserData(json.getBoolean("needsUserData"));
