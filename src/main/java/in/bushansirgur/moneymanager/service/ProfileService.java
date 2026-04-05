@@ -35,7 +35,9 @@ public class ProfileService {
         ProfileEntity newProfile = toEntity(profileDTO);
         newProfile.setActivationToken(UUID.randomUUID().toString());
         newProfile = profileRepository.save(newProfile);
+        System.out.println("STEP 1: USER SAVED");
 
+        System.out.println("STEP 2: ABOUT TO SEND EMAIL");
         //send activation email
         String activationLink = activationURL+"/api/v1.0/activate?token=" + newProfile.getActivationToken();
         String subject = "Activate your Money Manager account";
