@@ -16,7 +16,7 @@ public class EmailService {
 
     private final JavaMailSender mailSender;
 
-    @Value("${spring.mail.properties.mail.smtp.from}")
+    @Value("${BREVO_API_KEY}")
     private String fromEmail;
 
     public void sendEmail(String to, String subject, String body) {
